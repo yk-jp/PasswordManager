@@ -1,6 +1,15 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+
+// token
+const secret_key: string = process.env.JWT_SECRET_KEY as string;
+
+const TOKEN = {
+  secret_key: secret_key
+}
+
+
 // server port
 const server_port: string = process.env.PORT || "5000";
 
@@ -22,6 +31,7 @@ const DATABASE = {
 }
 
 const config = {
+  token: TOKEN,
   server: SERVER,
   db: DATABASE
 }
