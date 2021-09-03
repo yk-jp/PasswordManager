@@ -1,13 +1,14 @@
 import validator from 'validator';
+import bcrypt from 'bcryptjs';
 // interface
-import { IAccount } from '../interfaces/IAuth';
-import { IAccountError } from '../interfaces/IValidationErrors';
-
+import IAccount from '../interfaces/IAccount';
+import IAccountError from '../interfaces/IAccountError';
+import IError from '../interfaces/IError';
 export default class AccountValidation {
 
   public static isAccountValid(account: IAccount): { isError: boolean, errors: IAccountError } {
     let isError: boolean = false;
-    
+
     const errors: IAccountError = { email: this.isEmailValid(account), password: this.isPasswordValid(account) };
     if (errors.email !== "" || errors.password.length > 0) isError = true;
 
@@ -30,9 +31,19 @@ export default class AccountValidation {
     return errorsMsg;
   }
 
-  public static isExistingAccount() {
+  public static isExistingAccount(account: IAccount): string {
+    return account ? "User account is already registered" : "Account doesn't exist";
+  }
 
-
+  public static async isPasswordCorrect(reqestingPassword: string, account: IAccount): Promise<IError> {
+    let error: IError = { isError: false, message: "" };
+    try {
+      const isPasswordCorrect: boolean = await bcrypt.compare(reqestingPassword, account.password);
+      if (!isPasswordCorrect) error = { isError: true, message: "password is wrong" };
+    } catch (err) {
+      console.log(err);
+    }
+    return error;
   }
 }
 

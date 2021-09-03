@@ -1,6 +1,6 @@
 import db from "../../config/db";
 // interface
-import { IAccount } from '../../interfaces/IAuth';
+import IAccount from '../../interfaces/IAccount';
 
 export default class AccountsQueries {
   public static insert(account: IAccount) {

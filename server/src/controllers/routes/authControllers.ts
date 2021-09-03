@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 // interface
-import { IAccount } from '../../interfaces/IAuth';
-import { IAccountError } from '../../interfaces/IValidationErrors';
+import IAccount from '../../interfaces/IAccount';
+import IAccountError from '../../interfaces/IAccountError';
+import IError from '../../interfaces/IError';
 // controllers
 import TokenController from '../token/tokenControllers';
 import AccountsQueries from '../queries/accountsQueries';
@@ -17,14 +18,12 @@ export const signUp_post = async (req: Request, res: Response) => {
     const existingAccountData = await AccountsQueries.findOne(email);
     const existingAccount: IAccount = JSON.parse(JSON.stringify(existingAccountData[0]))[0];
 
-    if (existingAccount) throw "User account is already registered";
+    if (existingAccount) throw Error(AccountValidation.isExistingAccount(existingAccount));
 
     // Check if both email and password are valid 
     const errors: { isError: boolean, errors: IAccountError } = AccountValidation.isAccountValid({ email, password });
 
     if (errors.isError) throw errors;
-
-    // if (!errors.isEmpty()) res.status(400).json({ errors: errors.array() });
 
     // If the data does not exist, register new user in a database
     // hashing password 
@@ -37,10 +36,12 @@ export const signUp_post = async (req: Request, res: Response) => {
     // create access token 
     const accessToken = TokenController.createAccessToken(email, 30);
 
-    res.json({ "token": accessToken });
+    // successfully sign up 
+    res.status(200).send(accessToken);
 
   } catch (err) {
-    res.json(err);
+    if (err.hasOwnProperty('isError')) res.status(400).json(err.errors);
+    res.status(400).json(err.toString());
   }
 };
 
@@ -54,19 +55,20 @@ export const signIn_post = async (req: Request, res: Response) => {
     const existingAccount: IAccount = JSON.parse(JSON.stringify(existingAccountData[0]))[0];
 
     // account doesn't exist because the account is not registered yet or email is wrong 
-    if (!existingAccount) throw "Account doesn't exist";
+    if (!existingAccount) throw Error(AccountValidation.isExistingAccount(existingAccount));
 
     // password is wrong
-    const isPasswordCorrect: boolean = await bcrypt.compare(password, existingAccount.password);
+    const isPasswordCorrect:IError = await AccountValidation.isPasswordCorrect(password, existingAccount);
 
-    if (!isPasswordCorrect) return Error("password is wrong");
+    if (isPasswordCorrect.isError) throw Error(isPasswordCorrect.message);
 
     // create access token 
     const accessToken = TokenController.createAccessToken(email, 30);
 
-    res.json({ existingAccount, accessToken });
+    //successfully  sign in 
+    res.status(200).send(accessToken);
   } catch (err) {
-    res.status(404).json(err);
+    res.status(404).json(err.toString());
   }
 }
 

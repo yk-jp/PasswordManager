@@ -1,4 +1,4 @@
-export interface IAccount {
+export default interface IAccount {
   email: string;
   password: string;
 }
