@@ -35,10 +35,11 @@ export default class AccountValidation {
     return account ? "User account is already registered" : "Account doesn't exist";
   }
 
-  public static async isPasswordCorrect(reqestingPassword: string, account: IAccount): Promise<IError> {
+  public static async isPasswordCorrect(requestedPassword: string, account: IAccount): Promise<IError> {
     let error: IError = { isError: false, message: "" };
     try {
-      const isPasswordCorrect: boolean = await bcrypt.compare(reqestingPassword, account.password);
+      const isPasswordCorrect: boolean = await bcrypt.compare(requestedPassword, account.password);
+      
       if (!isPasswordCorrect) error = { isError: true, message: "password is wrong" };
     } catch (err) {
       console.log(err);

@@ -5,7 +5,7 @@ const router: Router = Router();
 
 // home page
 router.get('/', () => { });
-router.post('/', authControllers.signIn_post)
+router.post('/', authControllers.signIn_post);
 
 // signup
 router.post('/signup', authControllers.signUp_post);

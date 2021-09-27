@@ -27,7 +27,7 @@ export const signUp_post = async (req: Request, res: Response) => {
 
     // If the data does not exist, register new user in a database
     // hashing password 
-    const salt = await bcrypt.genSalt();
+    const salt = bcrypt.genSaltSync();
     const hasheedPassword: string = await bcrypt.hash(password, salt);
 
     // store new account
@@ -35,11 +35,10 @@ export const signUp_post = async (req: Request, res: Response) => {
 
     // create access token 
     const accessToken = TokenController.createAccessToken(email, 30);
-
     // successfully sign up 
-    res.status(200).send(accessToken);
+    res.status(201).json({accessToken});
 
-  } catch (err) {
+  } catch (err: any) {
     if (err.hasOwnProperty('isError')) res.status(400).json(err.errors);
     res.status(400).json(err.toString());
   }
@@ -58,16 +57,16 @@ export const signIn_post = async (req: Request, res: Response) => {
     if (!existingAccount) throw Error(AccountValidation.isExistingAccount(existingAccount));
 
     // password is wrong
-    const isPasswordCorrect:IError = await AccountValidation.isPasswordCorrect(password, existingAccount);
-
+    const isPasswordCorrect: IError = await AccountValidation.isPasswordCorrect(password, existingAccount);
+    
     if (isPasswordCorrect.isError) throw Error(isPasswordCorrect.message);
 
     // create access token 
     const accessToken = TokenController.createAccessToken(email, 30);
 
-    //successfully  sign in 
-    res.status(200).send(accessToken);
-  } catch (err) {
+    //successfully sign in 
+    res.status(200).json({accessToken});
+  } catch (err: any) {
     res.status(404).json(err.toString());
   }
 }
