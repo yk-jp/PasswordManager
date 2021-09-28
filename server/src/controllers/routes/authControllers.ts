@@ -62,7 +62,7 @@ export const signIn_post = async (req: Request, res: Response) => {
     if (isPasswordCorrect.isError) throw Error(isPasswordCorrect.message);
 
     // create access token 
-    const accessToken = TokenController.createAccessToken(email, 30);
+    const accessToken = TokenController.createAccessToken(email, 15 * 1000 * 60); //15 * 1000 ms(1s) * 60(s) = 15 minutes  
 
     //successfully sign in 
     res.status(200).json({accessToken});
