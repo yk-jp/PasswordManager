@@ -1,7 +1,7 @@
-
+import { Link } from 'react-router-dom';
 const Title = () => {
   return (
-      <dt>Password Manager</dt>
+    <Link className="nav-link text-white" to="/"><dt>Password Manager</dt></Link>
   );
 }
 

@@ -39,8 +39,8 @@ export const signUp_post = async (req: Request, res: Response) => {
     res.status(201).json({accessToken});
 
   } catch (err: any) {
-    if (err.hasOwnProperty('isError')) res.status(400).json(err.errors);
-    res.status(400).json(err.toString());
+    if (err.hasOwnProperty('isError')) return res.status(400).json(err.errors);
+    return res.status(400).json(err.toString());
   }
 };
 
