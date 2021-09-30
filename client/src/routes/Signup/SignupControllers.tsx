@@ -7,7 +7,7 @@ import errorHandler from "../../utils/errorHandler";
 
 const SignupControllers = () => {
   const inputData = useContext(InputContext);
-  const [error, setError] = useState<string | undefined>();
+  const [error, setError] = useState<string[] | undefined>();
   const history = useHistory();
   useEffect(() => {
     return () => {
@@ -32,7 +32,7 @@ const SignupControllers = () => {
       // navigate to mypage
       history.push('/mypage');
     } catch (err: any) {
-      const error = errorHandler(err);
+      const error:string[] = errorHandler(err);
       setError(error);
     }
   };

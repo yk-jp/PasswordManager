@@ -16,7 +16,13 @@ const Signup = () => {
         </div>
         {error &&
           <div id="errorMessage" className="text-danger my-4">
-            <p>{JSON.stringify(error)}</p>
+            <ul>
+              {error.map((err, index) => {
+                return <li key={index}>
+                  {err}
+                </li>
+              })}
+            </ul>
           </div>
         }
         {/* login with email and password */}

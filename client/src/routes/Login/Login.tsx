@@ -6,13 +6,24 @@ import FormField from "../../components/FormField/FormField";
 // controllers
 import LoginControllers from './LoginControllers';
 const Login = () => {
-  const { login } = LoginControllers();
+  const { error, login } = LoginControllers();
   return (
     <div className="vh-100 container d-flex justify-content-center align-items-center flex-column">
       <div>
         <div className="text-white text-center my-4">
           <h2><Title /></h2>
         </div>
+        {error &&
+          <div id="errorMessage" className="text-danger my-4">
+            <ul>
+              {error.map((err, index) => {
+                return <li key={index}>
+                  {err}
+                </li>
+              })}
+            </ul>
+          </div>
+        }
         {/* login with email and password */}
         <form onSubmit={(e) => { login(e) }}>
           <FormField />
