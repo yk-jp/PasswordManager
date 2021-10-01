@@ -10,7 +10,6 @@ const errorHandler = (error: any): string[] => {
       })
     }
     else errorMsg.push(error.response.data);
- 
 
   } else if(error.request) {
     errorMsg.push(error.request);

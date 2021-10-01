@@ -1,5 +1,13 @@
 import { Request, Response } from 'express';
-
-export const mypage_get = (req: Request, res: Response) => {
-  res.json({success:true});
+import IPrivateInfo from '../../interfaces/IPrivateInfo';
+import PrivateInfoQueries from '../queries/privateInfoQueries';
+export const mypage_get = async (req: Request, res: Response) => {
+  try {
+    const privateInfoData = await PrivateInfoQueries.findAll(res.locals.email);
+    const privateInfoList: IPrivateInfo[] = JSON.parse(JSON.stringify(privateInfoData[0]))[0];
+    res.json(privateInfoList);
+    
+  } catch (err: any) {
+    res.status(400).send(err.message);
+  }
 };
