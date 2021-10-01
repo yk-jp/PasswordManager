@@ -19,7 +19,7 @@ const LoginControllers = () => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post(`${config.server.endpoint}`,
+      const { data } = await axios.post(config.server.home_post,
         {
           email: inputData.emailData.email,
           password: inputData.passwordData.password

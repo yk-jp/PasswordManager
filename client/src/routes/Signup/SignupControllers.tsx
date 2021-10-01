@@ -20,7 +20,7 @@ const SignupControllers = () => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post(`${config.server.endpoint}/signup`,
+      const { data } = await axios.post(config.server.signup_post,
         {
           email: inputData.emailData.email,
           password: inputData.passwordData.password
@@ -32,7 +32,7 @@ const SignupControllers = () => {
       // navigate to mypage
       history.push('/mypage');
     } catch (err: any) {
-      const error:string[] = errorHandler(err);
+      const error: string[] = errorHandler(err);
       setError(error);
     }
   };

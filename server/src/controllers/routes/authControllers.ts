@@ -12,7 +12,7 @@ import AccountValidation from '../../validations/accountValidations';
 
 export const signUp_post = async (req: Request, res: Response) => {
   const { email, password }: IAccount = req.body;
-
+  
   try {
     // First things to do is to find an old user account.
     const existingAccountData = await AccountsQueries.findOne(email);
