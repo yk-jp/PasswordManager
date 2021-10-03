@@ -4,7 +4,7 @@ import IAccount from '../../interfaces/IAccount';
 
 export default class AccountsQueries {
   public static insert(account: IAccount) {
-    return db.execute("INSERT INTO accounts (email,password) VALUES (?,?)", [account.email, account.password]);
+    return db.execute("INSERT INTO accounts (userId,email,password) VALUES (?,?,?)", [account.userId, account.email, account.password]);
   }
 
   public static findOne(email: string) {
