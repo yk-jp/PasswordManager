@@ -1,0 +1,40 @@
+
+# ------------------  test case for success -------------------
+###
+POST http://localhost:5000/signup
+Content-Type: application/json
+
+{
+  "email":"test@gmail.com",
+  "password":"test12"
+}
+
+# ------------------  test case for error -------------------
+
+### invalid email  
+POST http://localhost:5000/signup
+Content-Type:application/json
+
+{
+  "email":"testgmail.com",
+  "password":"test12"
+}
+
+### invalid password
+POST http://localhost:5000/signup
+Content-Type:application/json
+
+{
+  "email":"test1@gmail.com",
+  "password":"test1"
+}
+
+### invalid email and password 
+### two password errors 
+POST http://localhost:5000/signup
+Content-Type:application/json
+
+{
+  "email":"test1gmail.com",
+  "password":"test"
+}

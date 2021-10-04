@@ -10,4 +10,8 @@ export default class AccountsQueries {
   public static findOne(email: string) {
     return db.execute("SELECT * FROM accounts where email = ?", [email]);
   }
+
+  public static findOneById(userId: string) {
+    return db.execute("SELECT * FROM accounts where userId = ?", [userId]);
+  }
 }

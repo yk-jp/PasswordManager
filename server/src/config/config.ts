@@ -6,9 +6,10 @@ const secret_key: string = process.env.JWT_SECRET_KEY as string;
 const secret_refresh_key: string = process.env.JWT_REFRESH_SECRET_KEY as string;
 
 // expiration time
-const secret_expiration_time: string = process.env.JWT_EXPIRATION_TIME as string || '15m'; 
+const secret_expiration_time: string = process.env.JWT_EXPIRATION_TIME as string || '15m';
 const secret_refresh_expiration_time: string = process.env.JWT_REFRESH_EXPIRATION_TIME as string || '30d';
-const cookie_refresh_expiration_time: number = parseInt(process.env.COOKIE_EFRESH_EXPIRATION_TIME as string) as number || 30 * 1000 * 60 * 60 * 24; //30 * 1000 ms(1s) * 60(s) * 60(min) * 24(hours) = 30 days 
+const cookie_refresh_expiration_time: number = parseInt(process.env.COOKIE_REFRESH_EXPIRATION_TIME!) as number || 14 * 1000 * 60 * 60 * 24; //14 * 1000 ms(1s) * 60(s) * 60(min) * 24(hours) = 14 days 
+console.log(cookie_refresh_expiration_time)
 
 const TOKEN = {
   secret_key: secret_key,
@@ -38,10 +39,20 @@ const DATABASE = {
   schema: db_schema
 }
 
+// redis
+const redis_port: number = parseInt(process.env.REDIS_PORT!) || 6379;
+const redis_host: string = process.env.REDIS_HOST || '127.0.0.1';
+
+const REDIS = {
+  port: redis_port,
+  host: redis_host
+}
+
 const config = {
   token: TOKEN,
   server: SERVER,
-  db: DATABASE
+  db: DATABASE,
+  redis: REDIS
 }
 
 export default config;

@@ -13,6 +13,8 @@ import AccountsQueries from '../queries/accountsQueries';
 import AccountValidation from '../../validations/accountValidations';
 // config
 import config from '../../config/config';
+// redis
+import { redisSetex } from '../../config/redis';
 
 export const signUp_post = async (req: Request, res: Response) => {
   const { email, password }: IAccount = req.body;
@@ -41,7 +43,11 @@ export const signUp_post = async (req: Request, res: Response) => {
     const accessToken = TokenController.createAccessToken(userId, config.token.secret_expiration_time);
 
     // create a refresh token 
-    res.cookie("refreshToken", TokenController.createRefreshToken(userId, config.token.secret_refresh_expiration_time), { maxAge: config.token.cookie_refresh_expiration_time, httpOnly: true, path: "/token" });
+    const refreshToken = TokenController.createRefreshToken(userId, config.token.secret_refresh_expiration_time)
+    res.cookie("refreshToken", refreshToken, { maxAge: config.token.cookie_refresh_expiration_time, httpOnly: true, path: "/token" });
+
+    // store a refresh token in redis cache with expiration which is the same period of cookie's 
+    await redisSetex(userId, config.token.cookie_refresh_expiration_time, refreshToken);
 
     // successfully sign up 
     res.status(201).json({ accessToken });
@@ -73,7 +79,11 @@ export const signIn_post = async (req: Request, res: Response) => {
     const accessToken = TokenController.createAccessToken(existingAccount.userId, config.token.secret_expiration_time);
 
     // create a refresh token 
-    res.cookie("refreshToken", TokenController.createRefreshToken(existingAccount.userId, config.token.secret_refresh_expiration_time), { maxAge: config.token.cookie_refresh_expiration_time, httpOnly: true, path: "/token" });
+    const refreshToken = TokenController.createRefreshToken(existingAccount.userId, config.token.secret_refresh_expiration_time);
+    res.cookie("refreshToken", refreshToken, { maxAge: config.token.cookie_refresh_expiration_time, httpOnly: true, path: "/token" });
+
+    // store a refresh token in redis cache with expiration which is the same period of cookie's 
+    await redisSetex(existingAccount.userId, config.token.cookie_refresh_expiration_time, refreshToken);
 
     //successfully sign in 
     res.status(200).json({ accessToken });
@@ -83,14 +93,19 @@ export const signIn_post = async (req: Request, res: Response) => {
 }
 
 export const token_post = async (req: Request, res: Response) => {
-  const refreshToken: string = req.cookies.refreshToken;
-
-  if (!refreshToken) return res.json({ accessToken: null });
+  const userId: string = res.locals.userId;
 
   try {
-    const decoded: JwtPayload = jwt.verify(refreshToken, config.token.secret_refresh_key) as JwtPayload;
+    const accessToken = TokenController.createAccessToken(userId, config.token.secret_expiration_time);
+    const refreshToken = TokenController.createRefreshToken(userId, config.token.secret_refresh_expiration_time);
 
-    res.send(decoded);
+    // update a refresh token stored in redis cache →　Sliding expiration time 
+    await redisSetex(userId, config.token.cookie_refresh_expiration_time, refreshToken);
+    res.cookie("refreshToken", refreshToken, { maxAge: config.token.cookie_refresh_expiration_time, httpOnly: true, path: "/token" });
+
+    //successfully generate new access token 
+    res.status(200).json({ accessToken });
+
   } catch (err: any) {
     return res.json({ accessToken: null });
   }
