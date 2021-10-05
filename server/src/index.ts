@@ -12,6 +12,7 @@ const app: Application = express();
 
 app.use(cors(
   {
+    origin: true,
     credentials: true
   }
 ));
@@ -19,7 +20,7 @@ app.use(cors(
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(authRouter);
+app.use('/',authRouter);
 app.use('/mypage', mypageRouter);
 
 app.listen(config.server.port, () => {

@@ -6,11 +6,11 @@ const secret_key: string = process.env.JWT_SECRET_KEY as string;
 const secret_refresh_key: string = process.env.JWT_REFRESH_SECRET_KEY as string;
 
 // expiration time
-const secret_expiration_time: string = process.env.JWT_EXPIRATION_TIME as string || '15m';
-const secret_refresh_expiration_time: string = process.env.JWT_REFRESH_EXPIRATION_TIME as string || '30d';
-const cookie_refresh_expiration_time: number = parseInt(process.env.COOKIE_REFRESH_EXPIRATION_TIME!) as number || 14 * 1000 * 60 * 60 * 24; //14 * 1000 ms(1s) * 60(s) * 60(min) * 24(hours) = 14 days 
-console.log(cookie_refresh_expiration_time)
+const secret_expiration_time: string = process.env.JWT_EXPIRATION_TIME as string || '12s';
+const secret_refresh_expiration_time: string = process.env.JWT_REFRESH_EXPIRATION_TIME as string || '30s';
+// const cookie_refresh_expiration_time: number = parseInt(process.env.COOKIE_REFRESH_EXPIRATION_TIME!) as number || 3 * 1000 * 60 * 60 * 24; //3 * 1000 ms(1s) * 60(s) * 60(min) * 24(hours) = 3 days 
 
+const cookie_refresh_expiration_time: number = 30* 1000; //3 * 1000 ms(1s) * 60(s) * 60(min) * 24(hours) = 3 days 
 const TOKEN = {
   secret_key: secret_key,
   secret_refresh_key: secret_refresh_key,

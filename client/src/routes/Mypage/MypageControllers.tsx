@@ -1,41 +1,52 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router';
 import config from '../../config/config';
 import axios from 'axios';
-
+import { ErrorFromMypageContext } from '../../context/ErrorFromMypageContext';
 const MypageControllers = () => {
   const history = useHistory();
   const accessToken: string | null = localStorage.getItem("accessToken");
+  const errorFromMypage = useContext(ErrorFromMypageContext);
+
+  useEffect(() => {
+    getPrivateInfo();
+  }, []);
+
   const getPrivateInfo = async () => {
     try {
-      const { data } = await axios.get(config.server.mypage_get,
+      await axios.get(config.server.mypage_get,
         {
           headers: {
             "Content-type": "application/json",
             Authorization: `Bearer ${accessToken}`
-          }
-        },
-      );
-      // console.log(data);
+          },
+          withCredentials: true
+        });
     } catch (err: any) {
-      console.log(err.message);
+      // clear an old access token that has already expired
       localStorage.removeItem("accessToken");
-      history.push('/');
-      alert(err.response.data);
+      // request access token by using refresh token
+      requestAccessTokenWithRefreshToken();
     }
   };
 
-  useEffect(() => {
-    if (!accessToken) history.push('/');
+  const requestAccessTokenWithRefreshToken = async () => {
+    try {
+      const { data } = await axios.get(config.server.token_get,
+        {
+          withCredentials: true
+        });
 
-    getPrivateInfo();
-
-    // cancel a fetch request 
-
-
-
-  }, []);
-
-}
+      if (data.accessToken) localStorage.setItem("accessToken", data.accessToken);
+      else {
+        errorFromMypage.setError('Session timeout');
+        history.push('/'); //redirect to the home page
+      }
+    } catch (error: any) {
+      errorFromMypage.setError(error.message);
+      history.push('/'); //redirect to the home page
+    }
+  }
+};
 
 export default MypageControllers;

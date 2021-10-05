@@ -32,7 +32,7 @@ export const protectAuth = async (req: Request, res: Response, next: NextFunctio
 
 export const protectAuthForRefresh = async (req: Request, res: Response, next: NextFunction) => {
   const refreshToken: string = req.cookies.refreshToken;
-  console.log(refreshToken)
+
   if (!refreshToken) return res.json({ accessToken: null });
 
   try {
