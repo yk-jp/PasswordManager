@@ -24,7 +24,9 @@ const SignupControllers = () => {
         {
           email: inputData.emailData.email,
           password: inputData.passwordData.password
-        });
+        }, {
+        withCredentials: true
+      });
 
       // store a token
       localStorage.setItem("accessToken", data.accessToken);

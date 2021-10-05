@@ -9,12 +9,12 @@ export const InputProvider = ({ children }: any): JSX.Element => {
 
   const InputData = {
     emailData: {
-      email: email,
-      setEmail: setEmail
+      email,
+      setEmail
     },
     passwordData: {
-      password: password,
-      setPassword: setPassword
+      password,
+      setPassword
     },
   }
 

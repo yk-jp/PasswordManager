@@ -5,7 +5,7 @@ import Mypage from "./routes/Mypage/Mypage";
 import Signup from "./routes/Signup/Signup";
 // useContext
 import { InputProvider } from "./context/InputContext";
-
+import { ErrorFromMypageProvider } from './context/ErrorFromMypageContext';
 const App = () => {
   return (
     <Router>
@@ -13,12 +13,18 @@ const App = () => {
         <Switch>
           {/* home page */}
           <Route exact path="/">
-            <InputProvider>
-              <Home />
-            </InputProvider>
+            <ErrorFromMypageProvider>
+              <InputProvider>
+                <Home />
+              </InputProvider>
+            </ErrorFromMypageProvider>
           </Route >
           {/* Mypage */}
-          <Route exact path="/mypage" component={Mypage} />
+          <Route exact path="/mypage">
+            <ErrorFromMypageProvider>
+              <Mypage />
+            </ErrorFromMypageProvider>
+          </Route>
           {/* signup */}
           <Route exact path="/signup">
             <InputProvider>
