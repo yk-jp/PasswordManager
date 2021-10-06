@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useState,useEffect, useContext } from 'react';
 import { useHistory } from 'react-router';
 import config from '../../config/config';
 import axios from 'axios';
@@ -7,9 +7,12 @@ const MypageControllers = () => {
   const history = useHistory();
   const accessToken: string | null = localStorage.getItem("accessToken");
   const errorFromMypage = useContext(ErrorFromMypageContext);
+  const [isLoggedIn,setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
+    if(!accessToken) history.push('/');
     getPrivateInfo();
+    setIsLoggedIn(true);
   }, []);
 
   const getPrivateInfo = async () => {
@@ -47,6 +50,8 @@ const MypageControllers = () => {
       history.push('/'); //redirect to the home page
     }
   }
+
+  return {isLoggedIn};
 };
 
 export default MypageControllers;

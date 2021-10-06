@@ -6,7 +6,8 @@ const server = {
   login_get: process.env.REACT_APP_SERVER_LOGIN_GET || 'http://localhost:5000/',
   signup_post: process.env.REACT_APP_SERVER_SIGNUP_POST || 'http://localhost:5000/signup',
   mypage_get: process.env.REACT_APP_SERVER_MYPAGE_GET || 'http://localhost:5000/mypage',
-  token_get: process.env.REACT_APP_SERVER_TOKEN_GET || 'http://localhost:5000/token'
+  token_get: process.env.REACT_APP_SERVER_TOKEN_GET || 'http://localhost:5000/token',
+  logout_delete:process.env.REACT_APP_SERVER_LOGOUT_DELETE || 'http://localhost:5000/mypage/logout'
 }
 
 const config = {

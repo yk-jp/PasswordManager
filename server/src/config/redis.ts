@@ -20,7 +20,7 @@ client.on('end', () => {
 
 export const redisSetex = util.promisify(client.setex).bind(client);
 export const redisGet = util.promisify(client.get).bind(client);
-
+export const redisDelete = (userId: string) => client.del(userId);
 
 
 export default client;
