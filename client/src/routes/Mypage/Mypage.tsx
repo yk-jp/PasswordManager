@@ -1,15 +1,26 @@
 import Header from "../../components/Header/Header";
 import MypageControllers from "./MypageControllers";
+import Loading from "../../components/Loading/Loading";
+import style from "./Style.module.css";
 const Mypage = () => {
-  MypageControllers();
+
+  const { isLoggedIn } = MypageControllers();
 
   return (
-    <div>
-      <Header />
-      <div className="text-white">
-        <p>Mypage</p>
-      </div>
-    </div>
+    <>
+      {!isLoggedIn ?
+        <div id="loading" className={`${style.center}`}>
+          <Loading />
+        </div>
+        :
+        <div>
+          <Header />
+          <div className="text-white">
+            <p>Mypage</p>
+          </div>
+        </div>
+      }
+    </>
   );
 
 };

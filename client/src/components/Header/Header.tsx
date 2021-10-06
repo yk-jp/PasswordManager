@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom';
+import HeaderControllers from './HeaderControllers';
+import './style.css';
 const Header = () => {
+
+  const { logout } = HeaderControllers();
 
   return (
     <>
@@ -9,14 +13,11 @@ const Header = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <li id="homepage" className="nav-item mt-1">
-              <Link className="nav-link" to="/"><i className="bi bi-house"></i>Home</Link>
-            </li>
             <li id="mypage" className="nav-item mt-1">
-              <Link className="nav-link" to="/mypage"><i className="bi bi-person-fill"></i>My page</Link>
+              <Link className="nav-link" to="/mypage"><i className="bi bi-person-fill"></i><span>My page</span></Link>
             </li>
-            <li id="signout" className="nav-item mt-1">
-              <Link className="nav-link" to="/"><i className="bi bi-box-arrow-right"></i>Sign out</Link>
+            <li id="signout" className="nav-item mt-1 nav-link" onClick={(e) => { logout(e) }}>
+              <i className="bi bi-box-arrow-right"></i><span>Log out</span>
             </li>
           </ul>
         </div>
