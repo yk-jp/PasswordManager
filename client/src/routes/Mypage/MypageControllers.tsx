@@ -1,30 +1,25 @@
-import { useState,useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router';
 import config from '../../config/config';
-import axios from 'axios';
 import { ErrorFromMypageContext } from '../../context/ErrorFromMypageContext';
+import getRequest from '../../hooks/getRequest';
 const MypageControllers = () => {
+  
   const history = useHistory();
   const accessToken: string | null = localStorage.getItem("accessToken");
   const errorFromMypage = useContext(ErrorFromMypageContext);
-  const [isLoggedIn,setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    if(!accessToken) history.push('/');
+    if (!accessToken) history.push('/');
     getPrivateInfo();
     setIsLoggedIn(true);
   }, []);
 
   const getPrivateInfo = async () => {
     try {
-      await axios.get(config.server.mypage_get,
-        {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`
-          },
-          withCredentials: true
-        });
+      await getRequest(config.server.mypage, accessToken);
+
     } catch (err: any) {
       // clear an old access token that has already expired
       localStorage.removeItem("accessToken");
@@ -35,10 +30,7 @@ const MypageControllers = () => {
 
   const requestAccessTokenWithRefreshToken = async () => {
     try {
-      const { data } = await axios.get(config.server.token_get,
-        {
-          withCredentials: true
-        });
+      const { data } = await getRequest(config.server.token, null, true);
 
       if (data.accessToken) localStorage.setItem("accessToken", data.accessToken);
       else {
@@ -51,7 +43,7 @@ const MypageControllers = () => {
     }
   }
 
-  return {isLoggedIn};
+  return { isLoggedIn };
 };
 
 export default MypageControllers;
