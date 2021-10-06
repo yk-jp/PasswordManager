@@ -1,12 +1,15 @@
 import { Router } from 'express';
 import { protectAuth } from '../middleware/authMiddleware';
-import { mypage_get } from '../controllers/routes/myPageControllers';
-import { logout_delete } from '../controllers/routes/logoutControllers';
+import { mypage_get, logout_delete, account_delete } from '../controllers/routes/myPageControllers';
+
 const router: Router = Router();
 
 router.get('/', protectAuth, mypage_get);
 router.post('/', protectAuth, () => { });
 // logout
-router.delete('/logout', logout_delete);
+router.delete('/logout', protectAuth, logout_delete);
+
+// delete my account
+router.delete('/account', protectAuth, account_delete);
 
 export default router;

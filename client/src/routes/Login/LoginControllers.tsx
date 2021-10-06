@@ -1,9 +1,12 @@
 import { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { InputContext } from "../../context/InputContext";
-import axios from 'axios';
+import IAccount from "../../interfaces/IAccount";
 import config from "../../config/config";
 import errorHandler from "../../utils/errorHandler";
+import postRequest from "../../hooks/postRequest";
+import getRequest from "../../hooks/getRequest";
+
 const LoginControllers = () => {
   const accessToken: string | null = localStorage.getItem("accessToken");
   const inputData = useContext(InputContext);
@@ -22,13 +25,7 @@ const LoginControllers = () => {
     if (!accessToken) return;
     try {
       // if access token is stored in local storage, check if it is valid or not.
-      const { data } = await axios.get(config.server.login_get,
-        {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`
-          }
-        });
+      const { data } = await getRequest(config.server.login, accessToken);
       // store a token
       localStorage.setItem("accessToken", data.accessToken);
       // navigate to mypage
@@ -41,15 +38,13 @@ const LoginControllers = () => {
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const accountData: IAccount = {
+      email: inputData.emailData.email,
+      password: inputData.passwordData.password
+    }
+
     try {
-      const { data } = await axios.post(config.server.login_post,
-        {
-          email: inputData.emailData.email,
-          password: inputData.passwordData.password
-        },
-        {
-          withCredentials: true
-        });
+      const { data } = await postRequest(config.server.login, accountData);
       // store a token
       localStorage.setItem("accessToken", data.accessToken);
 

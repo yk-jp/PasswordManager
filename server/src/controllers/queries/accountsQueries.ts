@@ -14,4 +14,8 @@ export default class AccountsQueries {
   public static findOneById(userId: string) {
     return db.execute("SELECT * FROM accounts where userId = ?", [userId]);
   }
+
+  public static deleteById(userId: string) {
+    return db.execute("DELETE FROM accounts where userId = ?", [userId]);
+  }
 }

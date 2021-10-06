@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./routes/Home/Home";
 import Mypage from "./routes/Mypage/Mypage";
 import Signup from "./routes/Signup/Signup";
+
 // useContext
 import { InputProvider } from "./context/InputContext";
 import { ErrorFromMypageProvider } from './context/ErrorFromMypageContext';
@@ -31,6 +32,7 @@ const App = () => {
               <Signup />
             </InputProvider>
           </Route>
+
         </Switch>
       </div>
     </Router >

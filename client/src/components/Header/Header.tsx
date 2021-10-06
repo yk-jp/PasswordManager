@@ -3,7 +3,7 @@ import HeaderControllers from './HeaderControllers';
 import './style.css';
 const Header = () => {
 
-  const { logout } = HeaderControllers();
+  const { logout, deleteMyAccount } = HeaderControllers();
 
   return (
     <>
@@ -13,11 +13,14 @@ const Header = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <li id="mypage" className="nav-item mt-1">
+            <li id="mypage" className="nav-item">
               <Link className="nav-link" to="/mypage"><i className="bi bi-person-fill"></i><span>My page</span></Link>
             </li>
-            <li id="signout" className="nav-item mt-1 nav-link" onClick={(e) => { logout(e) }}>
+            <li id="signout" className="nav-item nav-link" onClick={(e) => { logout(e) }}>
               <i className="bi bi-box-arrow-right"></i><span>Log out</span>
+            </li>
+            <li id="signout" className="nav-item nav-link"  onClick={(e) => { deleteMyAccount(e) }}>
+              <i className="bi bi-person-x  color-red"></i><span className=" color-red">Delete my account</span>
             </li>
           </ul>
         </div>
