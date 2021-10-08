@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./routes/Home/Home";
 import Mypage from "./routes/Mypage/Mypage";
 import Signup from "./routes/Signup/Signup";
-
+import Edit from "./routes/Edit/Edit";
 // useContext
 import { InputProvider } from "./context/InputContext";
 import { ErrorFromMypageProvider } from './context/ErrorFromMypageContext';
@@ -24,6 +24,12 @@ const App = () => {
           <Route exact path="/mypage">
             <ErrorFromMypageProvider>
               <Mypage />
+            </ErrorFromMypageProvider>
+          </Route>
+          {/* edit item */}
+          <Route exact path="/mypage/item/:id">
+            <ErrorFromMypageProvider>
+              <Edit />
             </ErrorFromMypageProvider>
           </Route>
           {/* signup */}
