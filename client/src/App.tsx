@@ -4,8 +4,10 @@ import Home from "./routes/Home/Home";
 import Mypage from "./routes/Mypage/Mypage";
 import Signup from "./routes/Signup/Signup";
 import Edit from "./routes/Edit/Edit";
+import Add from "./routes/Add/Add";
 // useContext
 import { InputProvider } from "./context/InputContext";
+import { InputForPrivateInfoProvider } from "./context/InputForPrivateInfoContext";
 import { ErrorFromMypageProvider } from './context/ErrorFromMypageContext';
 const App = () => {
   return (
@@ -26,10 +28,20 @@ const App = () => {
               <Mypage />
             </ErrorFromMypageProvider>
           </Route>
-          {/* edit item */}
-          <Route exact path="/mypage/item/:id">
+          {/* add item */}
+          <Route exact path="/mypage/account/add">
             <ErrorFromMypageProvider>
-              <Edit />
+              <InputForPrivateInfoProvider>
+                <Add />
+              </InputForPrivateInfoProvider>
+            </ErrorFromMypageProvider>
+          </Route>
+          {/* edit item */}
+          <Route exact path="/mypage/account/:id">
+            <ErrorFromMypageProvider>
+              <InputForPrivateInfoProvider>
+                <Edit />
+              </InputForPrivateInfoProvider>
             </ErrorFromMypageProvider>
           </Route>
           {/* signup */}

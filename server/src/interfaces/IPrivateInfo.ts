@@ -1,7 +1,7 @@
 export default interface IPrivateInfo {
+  itemId:string;
   title: string;
-  link?: string;
-  username?: string;
-  email?: string;
-  password?: string;
+  link?: string | null;
+  username?: string | null;
+  password?: string | null;
 }

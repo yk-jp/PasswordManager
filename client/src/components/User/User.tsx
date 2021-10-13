@@ -3,9 +3,9 @@ import IPrivateInfo from "../../interfaces/IPrivateInfo";
 
 const User = (user: IPrivateInfo) => {
   return (
-    <div  id={user.id} className="card bg-secondary">
+    <div  id={user.itemId} className="card bg-secondary">
       <div className="card-header text-center d-flex justify-content-center">
-        <p className="m-0 px-1">Account</p><Link to={`mypage/item/${user.id}`}><i className="bi bi-pencil-square"></i></Link>
+        <p className="m-0 px-1">Account</p><Link to={`mypage/account/${user.itemId}`}><i className="bi bi-pencil-square"></i></Link>
       </div>
       <div className="card-header text-center">
         {

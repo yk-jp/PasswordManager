@@ -1,0 +1,13 @@
+.center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.bg-yellow {
+    background-color: yellow;
+}
+
+.text-decoration-none {
+    text-decoration: none;
+}

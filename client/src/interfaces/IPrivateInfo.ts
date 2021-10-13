@@ -1,5 +1,5 @@
 export default interface IPrivateInfo {
-  id:string;
+  itemId:string;
   title: string;
   link?: string;
   username?: string;
