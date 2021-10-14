@@ -2,7 +2,6 @@ import redis from 'redis';
 import config from './config';
 import util from 'util';
 const client = redis.createClient({
-  port: config.redis.port,
   host: config.redis.host
 });
 

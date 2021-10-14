@@ -13,14 +13,15 @@ const app: Application = express();
 app.use(cors(
   {
     origin: config.client,
-    credentials: true
+    credentials: true,
+    allowedHeaders: ['Origin','X-Requested-With','Content-Type','Accept','Authorization']
   }
 ));
 
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/',authRouter);
+app.use('/', authRouter);
 app.use('/mypage', mypageRouter);
 
 app.listen(config.server.port, () => {
