@@ -4,6 +4,7 @@ import IPrivateInfo from '../interfaces/IPrivateInfo';
 const postRequest = async (endPoint: string, accountData: IAccount | IPrivateInfo, accessToken?: string | undefined | null) => {
   if (accessToken) {
     const headers = {
+      'Access-Control-Allow-Origin':'*',
       "Content-type": "application/json",
       Authorization: `Bearer ${accessToken}`
     };
@@ -17,8 +18,12 @@ const postRequest = async (endPoint: string, accountData: IAccount | IPrivateInf
 
   return await axios.post(endPoint,
     accountData, {
-    withCredentials: true
-  });
+    withCredentials: true,
+    headers: { 
+      'Access-Control-Allow-Origin':'*'
+    }
+  },
+  );
 };
 
 export default postRequest;

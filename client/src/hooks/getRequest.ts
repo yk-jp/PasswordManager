@@ -4,6 +4,7 @@ const getRequest = async (endPoint: string, accessToken?: string | undefined | n
   if (accessToken) {
     const headers = {
       "Content-type": "application/json",
+      'Access-Control-Allow-Origin':'*',
       Authorization: `Bearer ${accessToken}`
     };
     return await axios.get(endPoint, {
@@ -14,6 +15,9 @@ const getRequest = async (endPoint: string, accessToken?: string | undefined | n
 
   return await axios.get(endPoint, {
     withCredentials: withCredentials,
+    headers:{
+      'Access-Control-Allow-Origin':'*'
+    }
   });
 };
 

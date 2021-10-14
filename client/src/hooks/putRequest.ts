@@ -4,6 +4,7 @@ import IPrivateInfo from '../interfaces/IPrivateInfo';
 const putRequest = async (endPoint: string, accountData: IAccount | IPrivateInfo, accessToken?: string | undefined | null) => {
   if (accessToken) {
     const headers = {
+      'Access-Control-Allow-Origin': '*',
       "Content-type": "application/json",
       Authorization: `Bearer ${accessToken}`
     };
@@ -17,7 +18,10 @@ const putRequest = async (endPoint: string, accountData: IAccount | IPrivateInfo
 
   return await axios.put(endPoint,
     accountData, {
-    withCredentials: true
+    withCredentials: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
   });
 };
 
