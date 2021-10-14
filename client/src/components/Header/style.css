@@ -1,0 +1,9 @@
+i,
+span {
+    color: yellow;
+    cursor: pointer;
+}
+
+.color-red {
+    color: red;
+}
