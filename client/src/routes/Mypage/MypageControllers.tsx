@@ -9,23 +9,26 @@ const MypageControllers = () => {
   const history = useHistory();
   const accessToken: string | null = localStorage.getItem("accessToken");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-
   const { requestAccessTokenWithRefreshToken } = TokenRequest();
   const [userData, setUserData] = useState<IPrivateInfo[]>([]);
 
   useEffect(() => {
     if (!accessToken) history.push('/');
-    getPrivateInfo();
-    setIsLoggedIn(true);
-  }, []);
+    let unmounted: boolean = false;
+    if (!unmounted) getPrivateInfo();
+    return () => {
+      unmounted = true;
+    }
+  }, [userData]);
 
   const getPrivateInfo = async () => {
     try {
-      const data = await getRequest(config.server.mypage, accessToken);
-      console.log(data);
+      const { data } = await getRequest(config.server.mypage, accessToken);
+      setUserData(data.privateInfoList);
+      // make the loading state true
+      setIsLoggedIn(true);
+
     } catch (err: any) {
-      // clear an old access token that has already expired
-      localStorage.removeItem("accessToken");
       // request access token by using refresh token
       requestAccessTokenWithRefreshToken();
     }

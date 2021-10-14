@@ -15,10 +15,14 @@ const TokenRequest = () => {
       if (data.accessToken) localStorage.setItem("accessToken", data.accessToken);
       else {
         errorFromMypage.setError('Session timeout');
+        // clear an old access token that has already expired
+        localStorage.removeItem("accessToken");
         history.push('/'); //redirect to the home page
       }
     } catch (error: any) {
       errorFromMypage.setError(error.message);
+      // clear an old access token that has already expired
+      localStorage.removeItem("accessToken");
       history.push('/'); //redirect to the home page
     }
   }

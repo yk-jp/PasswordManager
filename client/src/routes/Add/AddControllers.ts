@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useHistory } from "react-router";
 import { InputForPrivateInfoContext } from "../../context/InputForPrivateInfoContext";
 import TokenRequest from "../../hooks/TokenRequest";
@@ -11,11 +11,6 @@ const AddControllers = () => {
   const history = useHistory();
   const InputForPrivateInfo = useContext(InputForPrivateInfoContext);
   const { requestAccessTokenWithRefreshToken } = TokenRequest();
-
-  useEffect(() => {
-    requestAccessTokenWithRefreshToken();
-  }, []);
-
 
   const add = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,12 +26,10 @@ const AddControllers = () => {
     try {
       // send a post request
       await postRequest(config.server.account, privateInfo, accessToken);
-
       history.push('/mypage');
     } catch (err: any) {
-      // clear an old access token that has already expired
-      localStorage.removeItem("accessToken");
-      history.push('/');
+      // check if session expired
+      requestAccessTokenWithRefreshToken();
     }
   };
 

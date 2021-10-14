@@ -13,7 +13,7 @@ export const mypage_get = async (req: Request, res: Response) => {
     let privateInfoList: IPrivateInfo[] = JSON.parse(JSON.stringify(privateInfoData))[0];
     // decrypt password
     privateInfoList = Crypt.decryptAllData(privateInfoList);
-    res.json(privateInfoList);
+    res.json({ privateInfoList });
   } catch (err: any) {
     res.status(400).send(err.message);
   }
@@ -58,12 +58,12 @@ export const item_get = async (req: Request, res: Response) => {
 
   try {
     const itemData = await PrivateInfoQueries.findOne(userId, itemId);
-    const item: IPrivateInfo = JSON.parse(JSON.stringify(itemData[0]))[0];
+    const privateInfo: IPrivateInfo = JSON.parse(JSON.stringify(itemData[0]))[0];
 
     //decrypt each password of items
-    item.password = Crypt.decrypt(item.password);
+    privateInfo.password = Crypt.decrypt(privateInfo.password);
 
-    res.status(200).json(item);
+    res.status(200).json({privateInfo});
 
   } catch (err: any) {
     // internal server error
@@ -74,13 +74,38 @@ export const item_get = async (req: Request, res: Response) => {
 export const item_post = async (req: Request, res: Response) => {
   const userId: string = res.locals.userId;
   const privateInfo: IPrivateInfo = req.body;
-  const itemId:string = uuidv4();
+  const itemId: string = uuidv4();
   privateInfo.itemId = itemId;
-  privateInfo.password = Crypt.encrypt(privateInfo.password);
- 
+  // encrypt a password
+  privateInfo.password = Crypt.encrypt(privateInfo.password?.replace(/\s/g, '')); //remove space
+
   try {
-    await PrivateInfoQueries.insertOne(userId,privateInfo);
-    res.status(200).json({"success":"successfully added a new item"});
+    await PrivateInfoQueries.insertOne(userId, privateInfo);
+    res.status(200).json({ "success": "successfully added a new item" });
+  } catch (err: any) {
+    res.status(400).send(err.message);
+  }
+};
+
+export const item_delete = async (req: Request, res: Response) => {
+  const userId: string = res.locals.userId;
+  const itemId: string = req.params.id;
+  try {
+    await PrivateInfoQueries.deleteOne(userId, itemId);
+    res.status(200).json({ "success": "successfully deleted the item" });
+  } catch (err: any) {
+    res.status(400).send(err.message);
+  }
+};
+
+
+export const item_put = async (req: Request, res: Response) => {
+  const userId: string = res.locals.userId;
+  const privateInfo:IPrivateInfo = req.body;
+  
+  try {
+    await PrivateInfoQueries.updateOne(userId, privateInfo);
+    res.status(200).json({ "success": "successfully deleted the item" });
   } catch (err: any) {
     res.status(400).send(err.message);
   }

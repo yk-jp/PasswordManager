@@ -4,12 +4,11 @@ export const InputForPrivateInfoContext = createContext<any>({});
 
 export const InputForPrivateInfoProvider = ({ children }: any): JSX.Element => {
 
-  const [itemId, setitemId] = useState<string>("");
-  const [title, setTitle] = useState<string>("");
-  const [link, setLink] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-
+  const [itemId, setitemId] = useState<string | null>("");
+  const [title, setTitle] = useState<string | null>("");
+  const [link, setLink] = useState<string | null>("");
+  const [username, setUsername] = useState<string | null>("");
+  const [password, setPassword] = useState<string | null>("");
 
   const InputForPrivateInfo = {
     itemIdData: {

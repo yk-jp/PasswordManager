@@ -24,7 +24,7 @@ const HeaderControllers = () => {
     if (!window.confirm("You want to delete your account?")) return;
 
     try {
-      deleteRequest(config.server.account, accessToken!);
+      deleteRequest(config.server.user, accessToken!);
 
       // delete a token
       localStorage.removeItem("accessToken");

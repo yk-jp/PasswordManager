@@ -12,7 +12,7 @@ const Add = () => {
       </div>
       <div className="d-flex justify-content-center mt-4">
         <form onSubmit={(e) => { add(e) }}>
-          <FormFieldForPrivateInfo />
+          <FormFieldForPrivateInfo/>
           <div className="d-flex justify-content-center mt-4">
             <button type="submit" className="btn btn-outline-warning">Add</button>
           </div>

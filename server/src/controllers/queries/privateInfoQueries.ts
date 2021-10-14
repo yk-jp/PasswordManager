@@ -17,8 +17,13 @@ export default class PrivateInfoQueries {
     return db.execute("INSERT INTO privateinfos (userId, itemId, title, link, username, password) VALUES (?,?,?,?,?,?)", [userId, privateInfo.itemId, privateInfo.title, privateInfo.link, privateInfo.username, privateInfo.password]);
   }
 
-  public static deleteOne(userId: string, privateInfo: IPrivateInfo) {
+  public static deleteOne(userId: string, itemId: string) {
     // specify columns except for user id which is a user's email 
-    return db.execute("DELETE FROM privateinfos WHERE userId = ? and itemId = ?", [userId, privateInfo.itemId]);
+    return db.execute("DELETE FROM privateinfos WHERE userId = ? and itemId = ?", [userId, itemId]);
+  }
+
+  public static updateOne(userId: string, privateInfo: IPrivateInfo) {
+    // specify columns except for user id which is a user's email 
+    return db.execute("UPDATE privateinfos SET title = ?,link = ?,username = ?,password = ? WHERE userId = ? and itemId = ?", [privateInfo.title, privateInfo.link, privateInfo.username, privateInfo.password, userId, privateInfo.itemId]);
   }
 }
