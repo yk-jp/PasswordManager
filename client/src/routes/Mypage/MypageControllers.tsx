@@ -1,49 +1,40 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import config from '../../config/config';
-import { ErrorFromMypageContext } from '../../context/ErrorFromMypageContext';
 import getRequest from '../../hooks/getRequest';
+import TokenRequest from "../../hooks/TokenRequest";
+import IPrivateInfo from '../../interfaces/IPrivateInfo';
 const MypageControllers = () => {
-  
+
   const history = useHistory();
   const accessToken: string | null = localStorage.getItem("accessToken");
-  const errorFromMypage = useContext(ErrorFromMypageContext);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const { requestAccessTokenWithRefreshToken } = TokenRequest();
+  const [userData, setUserData] = useState<IPrivateInfo[]>([]);
 
   useEffect(() => {
     if (!accessToken) history.push('/');
-    getPrivateInfo();
-    setIsLoggedIn(true);
-  }, []);
+    let unmounted: boolean = false;
+    if (!unmounted) getPrivateInfo();
+    return () => {
+      unmounted = true;
+    }
+  }, [userData]);
 
   const getPrivateInfo = async () => {
     try {
-      await getRequest(config.server.mypage, accessToken);
+      const { data } = await getRequest(config.server.mypage, accessToken);
+      setUserData(data.privateInfoList);
+      // make the loading state true
+      setIsLoggedIn(true);
 
     } catch (err: any) {
-      // clear an old access token that has already expired
-      localStorage.removeItem("accessToken");
       // request access token by using refresh token
       requestAccessTokenWithRefreshToken();
     }
   };
 
-  const requestAccessTokenWithRefreshToken = async () => {
-    try {
-      const { data } = await getRequest(config.server.token, null, true);
-
-      if (data.accessToken) localStorage.setItem("accessToken", data.accessToken);
-      else {
-        errorFromMypage.setError('Session timeout');
-        history.push('/'); //redirect to the home page
-      }
-    } catch (error: any) {
-      errorFromMypage.setError(error.message);
-      history.push('/'); //redirect to the home page
-    }
-  }
-
-  return { isLoggedIn };
+  return { isLoggedIn, userData };
 };
 
 export default MypageControllers;

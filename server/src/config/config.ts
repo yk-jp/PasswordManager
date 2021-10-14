@@ -2,14 +2,14 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // token
-const secret_key: string = process.env.JWT_SECRET_KEY as string;
-const secret_refresh_key: string = process.env.JWT_REFRESH_SECRET_KEY as string;
+const secret_key: string = process.env.JWT_SECRET_KEY as string || "secret_refresh_key";
+const secret_refresh_key: string = process.env.JWT_REFRESH_SECRET_KEY as string || "secret_refresh_key";
 
 // expiration time
-const secret_expiration_time: string = process.env.JWT_EXPIRATION_TIME as string || '15s';
-const secret_refresh_expiration_time: string = process.env.JWT_REFRESH_EXPIRATION_TIME as string || '30s';
+const secret_expiration_time: string = process.env.JWT_EXPIRATION_TIME as string || '15m';
+const secret_refresh_expiration_time: string = process.env.JWT_REFRESH_EXPIRATION_TIME as string || '30m';
 
-const cookie_refresh_expiration_time: number = 30* 1000; //3 * 1000 ms(1s) * 60(s) * 60(min) * 24(hours) = 3 days  3* 1000 * 60 * 60 * 24;
+const cookie_refresh_expiration_time: number = 30 * 1000 * 60 * 60; //3 * 1000 ms(1s) * 60(s) * 60(min) * 24(hours) = 3 days  3* 1000 * 60 * 60 * 24;
 const TOKEN = {
   secret_key: secret_key,
   secret_refresh_key: secret_refresh_key,
@@ -47,11 +47,18 @@ const REDIS = {
   host: redis_host
 }
 
+// encryption
+const crypt_secret: string = process.env.CRYPT_SECRET_KEY || 'crypt_secret_key';
+const CRYPTO = {
+  secret_key: crypt_secret
+}
+
 const config = {
   token: TOKEN,
   server: SERVER,
   db: DATABASE,
-  redis: REDIS
+  redis: REDIS,
+  crypt: CRYPTO
 }
 
 export default config;

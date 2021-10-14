@@ -21,10 +21,10 @@ const HeaderControllers = () => {
     }
   };
   const deleteMyAccount = async (e: React.MouseEvent) => {
-    if (!window.confirm("You want to delete your account?")) e.preventDefault();
+    if (!window.confirm("You want to delete your account?")) return;
 
     try {
-      deleteRequest(config.server.account, accessToken!);
+      deleteRequest(config.server.user, accessToken!);
 
       // delete a token
       localStorage.removeItem("accessToken");

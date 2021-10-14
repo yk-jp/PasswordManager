@@ -15,10 +15,6 @@ const LoginControllers = () => {
 
   useEffect(() => {
     automateLogin();
-    return () => {
-      inputData.emailData.setEmail("");
-      inputData.passwordData.setPassword("");
-    }
   }, []);
 
   const automateLogin = async () => {
