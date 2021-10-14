@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const endpoint: string = process.env.EACT_APP_SERVER_ENDPOINT || 'http://localhost:5000';
+const endpoint: string = process.env.REACT_APP_SERVER_ENDPOINT || 'http://localhost:5000';
 
 const server = {
   login: `${endpoint}/`,
