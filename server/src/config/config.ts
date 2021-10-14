@@ -53,12 +53,15 @@ const CRYPTO = {
   secret_key: crypt_secret
 }
 
+const client:string = process.env.CLIENT || "http://localhost:3000";
+
 const config = {
   token: TOKEN,
   server: SERVER,
   db: DATABASE,
   redis: REDIS,
-  crypt: CRYPTO
+  crypt: CRYPTO,
+  client:client
 }
 
 export default config;
