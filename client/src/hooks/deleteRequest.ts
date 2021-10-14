@@ -6,7 +6,6 @@ const deleteRequest = async (endPoint: string, accessToken: string, data?:IPriva
     {
       withCredentials: true,
       headers: {
-        'Access-Control-Allow-Origin':'*',
         "Content-type": "application/json",
         Authorization: `Bearer ${accessToken}`
       }
