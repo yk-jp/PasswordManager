@@ -26,9 +26,9 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "start-local": "react-scripts --openssl-legacy-provider start",
+        "local-start": "react-scripts --openssl-legacy-provider start",
         "build": "react-scripts build",
-        "build-local": "react-scripts --openssl-legacy-provider build",
+        "local-build": "react-scripts --openssl-legacy-provider build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
