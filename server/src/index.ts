@@ -12,7 +12,7 @@ const app: Application = express();
 
 app.use(cors(
   {
-    origin: config.client,
+    origin: [config.client,config.redis.host],
     credentials: true,
     allowedHeaders: ['Origin','X-Requested-With','Content-Type','Accept','Authorization']
   }

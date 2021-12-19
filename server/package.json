@@ -6,6 +6,7 @@
     "scripts": {
         "test": "jest --coverage",
         "start": "node build/index.js",
+        "start-release": "pm2-runtime start ecosystem.config.js --env production",
         "dev": "nodemon src/index.ts",
         "build": "tsc",
         "postinstall": "npm run build"
@@ -41,6 +42,7 @@
         "typescript": "^4.3.5"
     },
     "dependencies": {
+        "@pm2/pm2-version-check": "^1.0.4",
         "bcryptjs": "^2.4.3",
         "cookie-parser": "^1.4.5",
         "cors": "^2.8.5",
@@ -50,6 +52,7 @@
         "http-proxy-middleware": "^2.0.1",
         "jsonwebtoken": "^8.5.1",
         "mysql2": "^2.3.0",
+        "pm2": "^5.1.2",
         "redis": "^3.1.2",
         "uuid": "^8.3.2",
         "validator": "^13.6.0"

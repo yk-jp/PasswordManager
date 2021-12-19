@@ -40,7 +40,7 @@ const DATABASE = {
 
 // redis
 const redis_port: number = parseInt(process.env.REDIS_PORT!) || 6379;
-const redis_host: string = process.env.REDIS_HOST || '127.0.0.1';
+const redis_host: string = process.env.REDIS_URL || '127.0.0.1';
 
 const REDIS = {
   port: redis_port,
