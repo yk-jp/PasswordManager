@@ -6,7 +6,6 @@ const postRequest = async (endPoint: string, accountData: IAccount | IPrivateInf
   if (accessToken) {
     const headers = {
       "Content-type": "application/json",
-      'Access-Control-Allow-Origin':`${endPoint}}`,
       Authorization: `Bearer ${accessToken}`
     };
     return await axios.post(endPoint,
