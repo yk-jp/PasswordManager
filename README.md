@@ -1,5 +1,15 @@
 # PasswordManager
-This is a web app to manage your password. 
+This is a web app to manage your password.
+</br>
+JWT,access token and refresh token are used in this app.
+</br>
+Once you sign in your mypage, automated login are going to be activated for 15 minutes.
+</br>
+Expiration for refresh token is set up for 30 minutes.
+After 15 minutes pass by, new access token are issued and the expiration for refresh token are renewed unless you take no actions at all.      
+
+# Live project
+http://password-manager-livid.vercel.app/
 
 # Sample image
 <img src="./docs/sessionTimeout.png" alt="drawing" width="200"/> <img src="./docs/add.png" alt="drawing" width="200"/>
@@ -42,3 +52,4 @@ backend
 *  MySQL
 *  Jest
 *  JWT
+*  PM2 (Used in a production environment)
