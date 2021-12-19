@@ -3,14 +3,13 @@ import IAccount from '../interfaces/IAccount';
 import IPrivateInfo from '../interfaces/IPrivateInfo';
 
 const postRequest = async (endPoint: string, accountData: IAccount | IPrivateInfo, accessToken?: string | undefined | null) => {
-  console.log(accountData);
   if (accessToken) {
     const headers = {
       "Content-type": "application/json",
       Authorization: `Bearer ${accessToken}`
     };
     return await axios.post(endPoint,
-      accountData, {
+      JSON.stringify(accountData), {
       withCredentials: true,
       headers
     }
@@ -18,7 +17,7 @@ const postRequest = async (endPoint: string, accountData: IAccount | IPrivateInf
   }
 
   return await axios.post(endPoint,
-    accountData, {
+    JSON.stringify(accountData), {
     withCredentials: true
   });
 };
